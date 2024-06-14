@@ -14,7 +14,7 @@ const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(
   ({ className, activeClassName, ...props }, ref) => {
     const pathname = usePathname();
 
-    const isActive = useMemo(
+    const isActive = useMemo<boolean>(
       () => pathname === props.href,
       [pathname, props.href]
     );

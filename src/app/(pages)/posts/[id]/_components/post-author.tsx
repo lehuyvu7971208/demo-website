@@ -13,7 +13,7 @@ type PostAuthorProps = {
 
 const PostAuthor = forwardRef<HTMLDivElement, PostAuthorProps>(
   ({ userId, className }, ref) => {
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([className]);
     }, [className]);
 

@@ -6,8 +6,10 @@ import { HTMLAttributes, forwardRef, useMemo } from "react";
 
 // Components
 import Image from "next/image";
+import PostStatistic from "@/components/post/post-statistic";
+
+// Types
 import { GetSinglePostResponse } from "@/api/post";
-import PostStatistic from "../[id]/_components/post-statistic";
 
 type SinglePostProps = {
   data: GetSinglePostResponse;
@@ -15,7 +17,7 @@ type SinglePostProps = {
 
 const SinglePost = forwardRef<HTMLDivElement, SinglePostProps>(
   ({ data, className }, ref) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () =>
         classNames([
           className,
@@ -44,7 +46,9 @@ const SinglePost = forwardRef<HTMLDivElement, SinglePostProps>(
         <div className={`flex-1 flex flex-col gap-y-2`}>
           <h3 className={`text-base font-medium line-clamp-2`}>{data.title}</h3>
 
-          <div className={`truncate line-clamp-2 text-wrap mb-4`}>{data.body}</div>
+          <div className={`truncate line-clamp-2 text-wrap mb-4`}>
+            {data.body}
+          </div>
 
           <PostStatistic
             views={data.views}

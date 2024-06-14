@@ -21,14 +21,20 @@ const Paginate = forwardRef<Component<ReactPaginateProps>, PaginateProps>(
     { skip = 0, total = 0, limit = 10, className, onPageChange, ...props },
     ref
   ) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([`flex items-center gap-4 mx-auto`, className]),
       [className]
     );
 
-    const forcePage = useMemo(() => getPage(skip, limit) - 1, [skip, limit]);
+    const forcePage = useMemo<number>(
+      () => getPage(skip, limit) - 1,
+      [skip, limit]
+    );
 
-    const pageCount = useMemo(() => Math.ceil(total / limit), [total, limit]);
+    const pageCount = useMemo<number>(
+      () => Math.ceil(total / limit),
+      [total, limit]
+    );
 
     const handlePageChange = (item: { selected: number }) => {
       !!onPageChange && onPageChange(item.selected + 1);

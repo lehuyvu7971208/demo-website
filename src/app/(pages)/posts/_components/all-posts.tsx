@@ -14,7 +14,7 @@ import Paginate from "@/components/paginate";
 import useGetAllPosts from "@/hooks/post/get-all-posts";
 
 // Types
-import { GetAllPostsResponse } from "@/api/post";
+import { GetAllPostsResponse, GetSinglePostResponse } from "@/api/post";
 
 // Hooks
 import usePaginate from "@/hooks/paginate";
@@ -45,7 +45,10 @@ const AllPosts: FunctionComponent<AllPostsProps> = (props) => {
     }
   );
 
-  const posts = useMemo(() => data?.posts ?? [], [data]);
+  const posts = useMemo<GetSinglePostResponse[]>(
+    () => data?.posts ?? [],
+    [data]
+  );
 
   const handleSortChange = (
     sortBy: Nullable<string>,
@@ -60,7 +63,7 @@ const AllPosts: FunctionComponent<AllPostsProps> = (props) => {
 
   return (
     <div className={`flex flex-col gap-y-4`}>
-      <div className="flex flex-row items-centers">
+      <div className="flex flex-row items-center">
         {search && (
           <div>
             Có <span className={`font-semibold`}>{data?.total}</span> kết quả,

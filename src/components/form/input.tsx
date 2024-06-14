@@ -9,12 +9,12 @@ export type FormInputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, error, className, inputClassName, ...props }, ref) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([className, "flex flex-col gap-y-1"]),
       [className]
     );
 
-    const computedInputClassName = useMemo(
+    const computedInputClassName = useMemo<string>(
       () =>
         classNames([
           inputClassName,

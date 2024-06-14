@@ -54,7 +54,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
     };
   }, []);
 
-  const computedClassName = useMemo(() => {
+  const computedClassName = useMemo<string>(() => {
     return classNames(["inline-block relative", className]);
   }, [className]);
 

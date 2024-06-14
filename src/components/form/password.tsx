@@ -15,11 +15,11 @@ const FormPassword = forwardRef<
 >(({ label, error, ...props }, ref) => {
   const [show, setShow] = useState<boolean>(false);
 
-  const type = useMemo(() => {
+  const type = useMemo<"text" | "password">(() => {
     return show ? "text" : "password";
   }, [show]);
 
-  const className = useMemo(
+  const className = useMemo<string>(
     () =>
       classNames([
         `

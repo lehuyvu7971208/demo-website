@@ -2,7 +2,6 @@
 
 // Utilities
 import classNames from "classnames";
-import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useEffect, forwardRef, HTMLAttributes } from "react";
 
 // Components
@@ -28,11 +27,9 @@ type SearchBarProps = {} & HTMLAttributes<HTMLDivElement>;
 
 const SearchBar = forwardRef<HTMLDivElement, SearchBarProps>(
   ({ className, ...props }, ref) => {
-    const router = useRouter();
-    const pathname = usePathname();
     const { search, push } = useSearch<SearchParams>({ search: "" });
 
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([className, "flex"]);
     }, [className]);
 

@@ -10,7 +10,7 @@ const Button = forwardRef<
   HTMLButtonElement,
   ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
 >(({ loading, className, ...props }, ref) => {
-  const computedClassName = useMemo(
+  const computedClassName = useMemo<string>(
     () =>
       classNames([
         `

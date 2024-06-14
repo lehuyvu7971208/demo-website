@@ -23,7 +23,7 @@ const ProfileSummary = forwardRef<HTMLAnchorElement, ProfileSummaryProps>(
   ({ className, ...props }, ref) => {
     const appStore = useAppStore((state) => state);
 
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([
         className,
         `
@@ -61,7 +61,7 @@ const ProfileActions = forwardRef<HTMLUListElement, ProfileActionsProps>(
   ({ className, onSignOut, ...props }, ref) => {
     const me = useAppStore((state) => state.me);
 
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([
         className,
         `
@@ -107,7 +107,7 @@ const Profile = forwardRef<HTMLDivElement, ProfileProps>(
   ({ className }, ref) => {
     const appStore = useAppStore((state) => state);
 
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([className, `flex items-center`]);
     }, [className]);
 

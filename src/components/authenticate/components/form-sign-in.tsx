@@ -47,7 +47,7 @@ const FormSignIn: FunctionComponent<FormSignInProps> = ({ onSuccess }) => {
   const authStore = useAuthStore((state) => state);
   const searchParams = useSearch<SearchParams>({ redirectUrl: null });
 
-  const signUpUrl = useMemo(() => {
+  const signUpUrl = useMemo<string>(() => {
     if (!searchParams.redirectUrl) {
       return "/auth/sign-up";
     }

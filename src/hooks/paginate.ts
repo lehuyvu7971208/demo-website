@@ -8,14 +8,17 @@ const usePaginate = (limit = 10) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const params = useMemo(
+  const params = useMemo<URLSearchParams>(
     () => new URLSearchParams(searchParams.toString()),
     [searchParams]
   );
 
-  const page = useMemo(() => parseInt(params.get("page") ?? "1"), [params]);
+  const page = useMemo<number>(
+    () => parseInt(params.get("page") ?? "1"),
+    [params]
+  );
 
-  const skip = useMemo(() => getSkip(page, limit), [page, limit]);
+  const skip = useMemo<number>(() => getSkip(page, limit), [page, limit]);
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());

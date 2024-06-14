@@ -36,7 +36,7 @@ const PostComments = forwardRef<HTMLDivElement, PostCommentsProps>(
     const [total, setTotal] = useState<number>(0);
     const [comments, setComments] = useState<SingleCommentResponse[]>([]);
 
-    const skip = useMemo(() => getSkip(page, COMMENT_PER_PAGE), [page]);
+    const skip = useMemo<number>(() => getSkip(page, COMMENT_PER_PAGE), [page]);
 
     const { data } = useGetPostComments(
       postId,
@@ -51,7 +51,7 @@ const PostComments = forwardRef<HTMLDivElement, PostCommentsProps>(
       setComments(data?.comments ?? []);
     }, [data]);
 
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([`p-4 bg-white rounded-md`, className]),
       [className]
     );

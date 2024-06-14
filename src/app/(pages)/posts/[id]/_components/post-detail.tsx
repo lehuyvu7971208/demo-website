@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 // Components
 import Image from "next/image";
 import PostAuthor from "./post-author";
-import PostStatistic from "./post-statistic";
+import PostStatistic from "../../../../../components/post/post-statistic";
 
 // Hooks
 import useGetSinglePost from "@/hooks/post/get-single-post";

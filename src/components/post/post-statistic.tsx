@@ -13,7 +13,7 @@ type PostStatisticProps = {
 
 const PostStatistic = forwardRef<HTMLDivElement, PostStatisticProps>(
   ({ className, views, likes, dislikes, ...props }, ref) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([`flex flex-row mt-auto justify-between`, className]),
       [className]
     );

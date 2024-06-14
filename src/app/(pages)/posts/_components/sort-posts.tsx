@@ -27,7 +27,7 @@ type SortMenuProps = Omit<HTMLAttributes<HTMLUListElement>, "onClick"> & {
 
 const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
   ({ className, toggle, onClick, ...props }, ref) => {
-    const computedClassName = useMemo(() => {
+    const computedClassName = useMemo<string>(() => {
       return classNames([className, `bg-white rounded-md`]);
     }, [className]);
 
@@ -39,13 +39,13 @@ const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
 
     return (
       <ul ref={ref} {...props} className={computedClassName}>
-        {POST_SORT_OPTIONS.map((item, index) => (
+        {POST_SORT_OPTIONS.map(({ title, values }, index) => (
           <li key={`post_sort_${index}`}>
             <a
-              onClick={() => handleSortItemClick(item.values)}
+              onClick={() => handleSortItemClick(values)}
               className={`block p-4 text-nowrap hover:cursor-pointer`}
             >
-              {item.title}
+              {title}
             </a>
           </li>
         ))}
@@ -75,7 +75,11 @@ const SortPosts: FunctionComponent<SortPostsProps> = ({
     sortBy: null,
   });
 
-  const selectSortTitle = useMemo(() => {
+  const selectSortTitle = useMemo<string>(() => {
+    if (!sortBy && !order) {
+      return "Sắp xếp";
+    }
+
     const selectSortOption = POST_SORT_OPTIONS.find(
       ({ values }) => values.sortBy === sortBy && values.order === order
     );
@@ -96,7 +100,7 @@ const SortPosts: FunctionComponent<SortPostsProps> = ({
         <Button
           onClick={toggle}
           className={`
-            flex flex-row items-center gap-x-2 
+            flex flex-row items-center gap-x-2 text-nowrap
             bg-gray-300 !text-gray-600 hover:bg-gray-400
           `}
         >

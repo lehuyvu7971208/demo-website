@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 // Utilities
 import classNames from "classnames";
@@ -16,7 +16,7 @@ type PostCommentProps = {
 
 const PostComment = forwardRef<HTMLDivElement, PostCommentProps>(
   ({ className, comment, ...props }, ref) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([`flex flex-col gap-y-2`, className]),
       [className]
     );

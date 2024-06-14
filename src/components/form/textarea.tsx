@@ -12,12 +12,12 @@ export type FormTextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 
 const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
   ({ error, label, className, inputClassName, ...props }, ref) => {
-    const computedClassName = useMemo(
+    const computedClassName = useMemo<string>(
       () => classNames([className, "flex flex-col gap-y-1"]),
       [className]
     );
 
-    const computedInputClassName = useMemo(
+    const computedInputClassName = useMemo<string>(
       () =>
         classNames([
           inputClassName,

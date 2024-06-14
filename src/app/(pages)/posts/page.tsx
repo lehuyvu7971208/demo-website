@@ -1,14 +1,16 @@
 // Utilities
 import { Metadata } from "next";
+import { getSkip } from "@/utils";
 import httpServer from "@/utils/http/server";
 
 // Components
 import AllPosts from "./_components/all-posts";
 
 // Apis
-import { getSkip } from "@/utils";
-import { POST_PER_PAGE } from "@/constants";
 import postApi, { GetAllPostsQuery, GetAllPostsResponse } from "@/api/post";
+
+// Constant
+import { POST_PER_PAGE } from "@/constants";
 
 type HomePageProps = {
   searchParams?: {
