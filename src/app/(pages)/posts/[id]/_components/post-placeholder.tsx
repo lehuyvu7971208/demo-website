@@ -1,5 +1,3 @@
-"use client";
-
 import { FunctionComponent } from "react";
 
 type PostPlaceholderProps = {};
@@ -10,7 +8,7 @@ const PostPlaceholder: FunctionComponent<PostPlaceholderProps> = () => {
       <div className="p-4 bg-white rounded-md">
         <div className="max-w-lg mx-auto animate-pulse">
           <div
-            style={{ paddingTop: '100%' }}
+            style={{ paddingTop: "100%" }}
             className={`w-full mb-4 max-w-lg max-h-lg bg-slate-200 rounded-md`}
           ></div>
 
