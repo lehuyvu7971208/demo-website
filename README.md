@@ -17,11 +17,11 @@
   - 📁 `components` contains components that are used in diffirence pages
   - 📁 `constants` contains variables that are used in the project
   - 📁 `hooks` contains React hooks
-  - 📁 `store` contains Zustand store defining 
     - 📁 `comment` React-Query hook for comment
     - 📁 `post` React-Query hook for post
     - 📁 `user` React-Query hook for user
     - ...
+  - 📁 `store` contains Zustand store defining 
   - 📁 `utils` contains utility functions
 
 ### Run the project
@@ -53,7 +53,7 @@ password: **emilyspass**.
 #### Run testing 
 ```
 npm run test
-
+// or
 npm run test:watch
 ```
 
