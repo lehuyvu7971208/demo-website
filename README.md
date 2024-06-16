@@ -18,7 +18,6 @@
 
 ### Run the project
 
-
 ```
 COPY .env.example .env
 ```
@@ -35,3 +34,23 @@ npm run start
 npm run dev
 ```
 
+### Demo Account 
+
+```
+username: emilys
+password: emilyspass
+```
+
+### Run testing 
+
+#### Run testing 
+```
+npm run test
+
+npm run test:watch
+```
+
+#### Run testing coverage
+```
+npm run test:coverage
+```
