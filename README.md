@@ -44,9 +44,9 @@ npm run dev
 
 ### Demo Account 
 
-username: **emilys**.
+username: **emilys**
 
-password: **emilyspass**.
+password: **emilyspass**
 
 ### Run testing 
 
