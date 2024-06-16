@@ -1,6 +1,7 @@
 "use client";
 
 // Utilities
+import classNames from "classnames";
 import { HTMLAttributes, forwardRef, useMemo } from "react";
 
 // Components
@@ -9,7 +10,6 @@ import SinglePost from "./single-post";
 
 // Types
 import { GetSinglePostResponse } from "@/api/post";
-import classNames from "classnames";
 
 type ListPostProps = HTMLAttributes<HTMLDivElement> & {
   posts: GetSinglePostResponse[];
