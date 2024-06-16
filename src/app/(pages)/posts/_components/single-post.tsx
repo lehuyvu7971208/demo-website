@@ -36,6 +36,7 @@ const SinglePost = forwardRef<HTMLDivElement, SinglePostProps>(
           width={100}
           height={100}
           alt={data.title}
+          data-testid="image"
           className={`
             sm:w-full sm:h-auto
             flex-none h-[100px] rounded-md
@@ -44,16 +45,29 @@ const SinglePost = forwardRef<HTMLDivElement, SinglePostProps>(
         />
 
         <div className={`flex-1 flex flex-col gap-y-2`}>
-          <h3 className={`text-base font-medium line-clamp-2`}>{data.title}</h3>
+          {data.title && (
+            <h3
+              data-testid="title"
+              className={`text-base font-medium line-clamp-2`}
+            >
+              {data.title}
+            </h3>
+          )}
 
-          <div className={`truncate line-clamp-2 text-wrap mb-4`}>
-            {data.body}
-          </div>
+          {data.body && (
+            <div
+              data-testid="body"
+              className={`truncate line-clamp-2 text-wrap mb-4`}
+            >
+              {data.body}
+            </div>
+          )}
 
           <PostStatistic
-            views={data.views}
-            likes={data.reactions.likes}
-            dislikes={data.reactions.dislikes}
+            data-testid="statistic"
+            views={data.views ?? 0}
+            likes={data.reactions?.likes ?? 0}
+            dislikes={data.reactions?.dislikes ?? 0}
           />
         </div>
       </div>

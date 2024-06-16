@@ -8,7 +8,7 @@ import {
   PropsWithChildren,
 } from "react";
 import { StoreApi, useStore } from "zustand";
-import { AuthStore, createAuthStore } from "./auth-store";
+import { AuthStore, createAuthStore } from "@/store/auth-store";
 
 export const AuthStoreContext = createContext<StoreApi<AuthStore> | null>(null);
 

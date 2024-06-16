@@ -1,4 +1,5 @@
-// import { XMarkIcon } from "@heroicons/react/16/solid";
+"use client";
+
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { FunctionComponent, MouseEvent, PropsWithChildren } from "react";
 
@@ -26,6 +27,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   return (
     open && (
       <div
+        data-testid="modal"
         className={`
         fixed z-50 left-0 top-0 w-screen h-screen
         after:block after:absoluted after:content-[''] after:top-0 
@@ -33,6 +35,7 @@ const Modal: FunctionComponent<ModalProps> = ({
       `}
       >
         <div
+          data-testid="modal-content"
           className={`
           flex flex-col gap-y-4 shadow-md
           w-full max-w-[320px] bg-white absolute z-50 top-10 
@@ -40,16 +43,23 @@ const Modal: FunctionComponent<ModalProps> = ({
         `}
         >
           <div className={`flex items-center`}>
-            <div className={`mr-auto text-md font-semibold`}>{title ?? ""}</div>
+            <div
+              data-testid="modal-title"
+              className={`mr-auto text-md font-semibold`}
+            >
+              {title ?? ""}
+            </div>
 
             {!persistence && (
-              <a href="#" onClick={handleCloseClick}>
+              <a data-testid="modal-close" href="#" onClick={handleCloseClick}>
                 <XMarkIcon className={`w-6`} />
               </a>
             )}
           </div>
 
-          <div className={`flex-1 w-full`}>{children}</div>
+          <div className={`flex-1 w-full`} data-testid="modal-body">
+            {children}
+          </div>
         </div>
       </div>
     )

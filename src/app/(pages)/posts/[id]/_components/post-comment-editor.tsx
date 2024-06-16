@@ -2,7 +2,7 @@
 
 // Uititlies
 import * as Yup from "yup";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, HTMLAttributes, forwardRef, useState } from "react";
 
 // Components
 import Image from "next/image";
@@ -31,105 +31,115 @@ const validationSchema = Yup.object().shape({
   body: Yup.string().required("Bạn chưa nhập nội dung bình luận."),
 });
 
-type PostCommentEditorProps = {
+type PostCommentEditorProps = HTMLAttributes<HTMLDivElement> & {
   postId: number;
   onSuccess?: (comment: AddCommentResponse) => void;
 };
 
-const PostCommentEditor: FunctionComponent<PostCommentEditorProps> = ({
-  postId,
-  onSuccess,
-}) => {
-  const me = useAppStore((state) => state.me);
-  const [error, setError] = useState<Nullable<string>>();
+const PostCommentEditor = forwardRef<HTMLDivElement, PostCommentEditorProps>(
+  ({ postId, onSuccess, ...props }, ref) => {
+    const me = useAppStore((state) => state.me);
+    const [error, setError] = useState<Nullable<string>>();
 
-  const [isDetailShown, setDetailShow] = useState<boolean>(false);
+    const [isDetailShown, setDetailShow] = useState<boolean>(false);
 
-  const { mutate: addComment, isPending } = useAddComment({
-    onSuccess: (response) => {
-      !!onSuccess && onSuccess(response.data);
-    },
-    onError: () => {
-      setError("Đã có lỗi xảy ra! Vui lòng thử lại");
-    },
-  });
-
-  const handleTextAreaFocus = () => {
-    setDetailShow(true);
-  };
-
-  if (!me) return null;
-
-  const handleFormSubmit = async (
-    values: FormValues,
-    helper: FormikHelpers<FormValues>
-  ) => {
-    setError(null);
-
-    addComment({
-      postId,
-      userId: me?.id,
-      body: values.body,
+    const { mutate: addComment, isPending } = useAddComment({
+      onSuccess: (response) => {
+        !!onSuccess && onSuccess(response.data);
+      },
+      onError: () => {
+        setError("Đã có lỗi xảy ra! Vui lòng thử lại");
+      },
     });
 
-    helper.resetForm();
+    const handleTextAreaFocus = () => {
+      setDetailShow(true);
+    };
 
-    return;
-  };
+    if (!me) return null;
 
-  return (
-    <div>
-      <Formik<FormValues>
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-      >
-        {(formProps) => (
-          <form
-            onSubmit={formProps.handleSubmit}
-            className={`flex flex-col gap-y-3`}
-          >
-            {!!error && (
-              <div className="p-4 bg-red-100 rounded-md text-red-600">
-                {error}
-              </div>
-            )}
+    const handleFormSubmit = async (
+      values: FormValues,
+      helper: FormikHelpers<FormValues>
+    ) => {
+      setError(null);
 
-            <FormikTextarea
-              name={"body"}
-              rows={isDetailShown ? 4 : 1}
-              placeholder="Chia sẻ ý kiến của bạn"
-              onFocus={handleTextAreaFocus}
-            />
+      addComment({
+        postId,
+        userId: me?.id,
+        body: values.body,
+      });
 
-            {isDetailShown && (
-              <div className={`flex flex-row items-center justify-end gap-x-4`}>
+      helper.resetForm();
+
+      return;
+    };
+
+    return (
+      <div ref={ref} {...props}>
+        <Formik<FormValues>
+          onSubmit={handleFormSubmit}
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+        >
+          {(formProps) => (
+            <form
+              data-testid="form"
+              onSubmit={formProps.handleSubmit}
+              className={`flex flex-col gap-y-3`}
+            >
+              {!!error && (
                 <div
-                  className={`flex flex-row items-center gap-x-4 font-semibold`}
+                  data-testid={"error"}
+                  className="p-4 bg-red-100 rounded-md text-red-600"
                 >
-                  <Image
-                    width={30}
-                    height={30}
-                    alt="Demo Website"
-                    src={"/images/avatar.png"}
-                  />
-                  {me.firstName} {me.lastName}
+                  {error}
                 </div>
+              )}
 
-                <Button
-                  type="submit"
-                  loading={isPending}
-                  className="!w-auto px-7"
+              <FormikTextarea
+                name={"body"}
+                data-testid={"textarea"}
+                rows={isDetailShown ? 4 : 1}
+                placeholder="Chia sẻ ý kiến của bạn"
+                onFocus={handleTextAreaFocus}
+              />
+
+              {isDetailShown && (
+                <div
+                  className={`flex flex-row items-center justify-end gap-x-4`}
                 >
-                  Bình luận
-                </Button>
-              </div>
-            )}
-          </form>
-        )}
-      </Formik>
-    </div>
-  );
-};
+                  <div
+                    data-testid="user"
+                    className={`flex flex-row items-center gap-x-4 font-semibold`}
+                  >
+                    <Image
+                      width={30}
+                      height={30}
+                      alt="Demo Website"
+                      src={"/images/avatar.png"}
+                    />
+                    {me.firstName} {me.lastName}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    loading={isPending}
+                    data-testid={"button"}
+                    className="!w-auto px-7"
+                  >
+                    Bình luận
+                  </Button>
+                </div>
+              )}
+            </form>
+          )}
+        </Formik>
+      </div>
+    );
+  }
+);
+
+PostCommentEditor.displayName = "PostCommentEditor";
 
 export default PostCommentEditor;

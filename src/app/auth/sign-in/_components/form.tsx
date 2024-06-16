@@ -22,12 +22,18 @@ type SignInFormProps = {};
 const SignInForm: FunctionComponent<SignInFormProps> = (props) => {
   const router = useRouter();
   const appStore = useAppStore((state) => state);
-  const searchParams = useSearch<SearchParams>({ redirectUrl: null });
+
+  const searchParams = useSearch<SearchParams>(
+    { redirectUrl: null },
+    {
+      willSearchUpdate: () => true,
+    }
+  );
 
   const handleAuthenticateSuccess = (token: string) => {
     appStore.setAccessToken(token);
 
-    router.replace(searchParams.redirectUrl ?? "/");
+    router.replace(decodeURIComponent(searchParams.redirectUrl ?? "/"));
   };
 
   return <FormSignIn onSuccess={handleAuthenticateSuccess} />;

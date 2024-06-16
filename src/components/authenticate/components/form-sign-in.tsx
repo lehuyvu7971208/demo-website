@@ -16,6 +16,8 @@ import useSearch from "@/hooks/search";
 
 // Store
 import { useAuthStore } from "@/store/auth-store-provider";
+
+// Types
 import { AxiosError } from "axios";
 
 type SearchParams = {
@@ -82,21 +84,25 @@ const FormSignIn: FunctionComponent<FormSignInProps> = ({ onSuccess }) => {
     >
       {(props) => (
         <form
+          data-testid="form-signin"
           onSubmit={props.handleSubmit}
           className="flex w-full flex-1 flex-col gap-y-3"
         >
           {!!error && (
-            <div className="p-4 bg-red-100 rounded-md text-red-600">
+            <div
+              data-testid="form-signin-error"
+              className="p-4 bg-red-100 rounded-md text-red-600"
+            >
               {error}
             </div>
           )}
-          <div></div>
 
           <div className="flex-1 w-full mb-3">
             <FormikInput
               name="username"
               label="Tài khoản"
               placeholder="Nhập tài khoản"
+              data-testid="form-signin-username"
             />
           </div>
 
@@ -105,11 +111,16 @@ const FormSignIn: FunctionComponent<FormSignInProps> = ({ onSuccess }) => {
               name="password"
               label="Mật khẩu"
               placeholder="Nhập mật khẩu"
+              data-testid="form-signin-password"
             />
           </div>
 
           <div className="flex-1 w-full">
-            <Button type="submit" loading={props.isSubmitting}>
+            <Button
+              type="submit"
+              loading={props.isSubmitting}
+              data-testid="form-signin-button"
+            >
               Đăng nhập
             </Button>
           </div>
@@ -121,6 +132,7 @@ const FormSignIn: FunctionComponent<FormSignInProps> = ({ onSuccess }) => {
                 replace
                 scroll={false}
                 href={signUpUrl}
+                data-testid="signup-link"
                 className="!text-blue-400 hover:font-semibold"
               >
                 Đăng ký

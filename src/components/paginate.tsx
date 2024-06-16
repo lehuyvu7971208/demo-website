@@ -43,24 +43,26 @@ const Paginate = forwardRef<Component<ReactPaginateProps>, PaginateProps>(
     if (total === 0) return null;
 
     return (
-      <ReactPaginate
-        ref={ref}
-        {...props}
-        marginPagesDisplayed={1}
-        pageCount={pageCount}
-        forcePage={forcePage}
-        className={computedClassName}
-        nextLabel={"Sau"}
-        previousLabel={"Trước"}
-        pageClassName={`w-8`}
-        pageLinkClassName={`
+      <div data-testid="pagination" className="flex flex-row">
+        <ReactPaginate
+          ref={ref}
+          {...props}
+          marginPagesDisplayed={1}
+          pageCount={pageCount}
+          forcePage={forcePage}
+          className={computedClassName}
+          nextLabel={"Sau"}
+          previousLabel={"Trước"}
+          pageClassName={`w-8`}
+          pageLinkClassName={`
           w-8 h-8 rounded-full 
           flex items-center justify-center 
           hover:bg-gray-300 transition-all ease-linear
         `}
-        activeLinkClassName={`!bg-blue-400 !text-white`}
-        onPageChange={handlePageChange}
-      />
+          activeLinkClassName={`!bg-blue-400 !text-white`}
+          onPageChange={handlePageChange}
+        />
+      </div>
     );
   }
 );

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { createAxiosIntance } from ".";
+import { createAxiosIntance } from "@/utils/http";
 
 const httpClient = createAxiosIntance();
 

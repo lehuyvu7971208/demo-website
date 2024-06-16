@@ -27,7 +27,12 @@ type SearchBarProps = {} & HTMLAttributes<HTMLDivElement>;
 
 const SearchBar = forwardRef<HTMLDivElement, SearchBarProps>(
   ({ className, ...props }, ref) => {
-    const { search, push } = useSearch<SearchParams>({ search: "" });
+    const { search, push } = useSearch<SearchParams>(
+      { search: "" },
+      {
+        pathname: "/posts",
+      }
+    );
 
     const computedClassName = useMemo<string>(() => {
       return classNames([className, "flex"]);
@@ -51,7 +56,7 @@ const SearchBar = forwardRef<HTMLDivElement, SearchBarProps>(
     }, [search, setValues]);
 
     return (
-      <div ref={ref} className={computedClassName}>
+      <div ref={ref} className={computedClassName} {...props}>
         <Formik<FormValues>
           onSubmit={handleFormSubmit}
           initialValues={{ search: search }}
@@ -63,6 +68,7 @@ const SearchBar = forwardRef<HTMLDivElement, SearchBarProps>(
             <FormInput
               name="search"
               className="w-full"
+              data-testid="search-bar-input"
               placeholder="Tìm kiếm bài viết theo tiêu đề, nội dung"
               value={values.search ?? ""}
               onChange={(event) => setValues({ search: event.target.value })}
@@ -71,6 +77,7 @@ const SearchBar = forwardRef<HTMLDivElement, SearchBarProps>(
             <Button
               type="submit"
               title="Tìm bài viết"
+              data-testid="search-bar-button"
               className={`
                 flex-0 !w-[42px] !rounded-full 
                 bg-gray-200 !text-gray-600 hover:!bg-gray-400

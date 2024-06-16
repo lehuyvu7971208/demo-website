@@ -1,16 +1,15 @@
 "use client";
 
 // Utilities
-import useSearch from "@/hooks/search";
 import { FunctionComponent, useMemo } from "react";
 
 // Components
-import Link from "next/link";
-import SortPosts from "./sort-posts";
-import SinglePost from "./single-post";
+import ListPosts from "./list-posts";
 import Paginate from "@/components/paginate";
+import SortPosts, { SortValues } from "./sort-posts";
 
 // Hooks
+import useSearch from "@/hooks/search";
 import useGetAllPosts from "@/hooks/post/get-all-posts";
 
 // Types
@@ -19,6 +18,12 @@ import { GetAllPostsResponse, GetSinglePostResponse } from "@/api/post";
 // Hooks
 import usePaginate from "@/hooks/paginate";
 
+const defaultSearchParams = {
+  order: null,
+  sortBy: null,
+  search: null,
+};
+
 type SearchParams = {
   order: Nullable<string>;
   sortBy: Nullable<string>;
@@ -26,17 +31,14 @@ type SearchParams = {
 };
 
 type AllPostsProps = {
-  data: Nullable<GetAllPostsResponse>;
+  data?: Nullable<GetAllPostsResponse>;
 };
 
 const AllPosts: FunctionComponent<AllPostsProps> = (props) => {
   const { skip, limit, change } = usePaginate();
 
-  const { search, order, sortBy, push } = useSearch<SearchParams>({
-    order: null,
-    sortBy: null,
-    search: null,
-  });
+  const { search, order, sortBy, push } =
+    useSearch<SearchParams>(defaultSearchParams);
 
   const { data } = useGetAllPosts(
     { skip, limit, order, sortBy, q: search },
@@ -49,6 +51,8 @@ const AllPosts: FunctionComponent<AllPostsProps> = (props) => {
     () => data?.posts ?? [],
     [data]
   );
+
+  const sort = useMemo<SortValues>(() => ({ order, sortBy }), [order, sortBy]);
 
   const handleSortChange = (
     sortBy: Nullable<string>,
@@ -65,34 +69,27 @@ const AllPosts: FunctionComponent<AllPostsProps> = (props) => {
     <div className={`flex flex-col gap-y-4`}>
       <div className="flex flex-row items-center">
         {search && (
-          <div>
-            Có <span className={`font-semibold`}>{data?.total}</span> kết quả,
-            theo từ khóa tìm kiếm{" "}
-            <span className={`font-semibold`}>{search}</span>
+          <div data-testid="search-posts">
+            Có{" "}
+            <span data-testid="search-posts-total" className={`font-semibold`}>
+              {data?.total ?? 0}
+            </span>{" "}
+            kết quả, theo từ khóa tìm kiếm{" "}
+            <span
+              data-testid="search-posts-keyword"
+              className={`font-semibold`}
+            >
+              {search}
+            </span>
           </div>
         )}
 
-        <SortPosts className="ml-auto" onSortChange={handleSortChange} />
+        <div className="ml-auto" data-testid="sort-posts">
+          <SortPosts value={sort} onSortChange={handleSortChange} />
+        </div>
       </div>
 
-      <div
-        className={`flex flex-row flex-wrap m-[-0.5rem] items-stretch justify-stretch`}
-      >
-        {posts.map((post) => (
-          <div
-            key={`post_${post.id}`}
-            className={`flex-0 w-full p-2 sm:w-1/2 lg:w-1/4 xl:w-1/5`}
-          >
-            <Link
-              href={`/posts/[id]`}
-              as={`/posts/${post.id}`}
-              className="block h-full"
-            >
-              <SinglePost data={post} className="h-full" />
-            </Link>
-          </div>
-        ))}
-      </div>
+      <ListPosts posts={posts} data-testid="posts" />
 
       <Paginate
         skip={data?.skip}

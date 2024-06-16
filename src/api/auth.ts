@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance } from "axios";
 
 export type MeResponse = {
   id: number;
@@ -34,13 +34,15 @@ export type LoginResponse = {
 
 const authApi = (http: AxiosInstance) => ({
   async me() {
-    return await http.get<MeResponse>("/auth/me");
+    const response = await http.get<MeResponse>("/auth/me");
+
+    return response;
   },
 
   async login(payload: LoginPayload) {
     return http.post<LoginResponse>("/auth/login", {
-      expiresInMins: parseInt(process.env.NEXT_PUBLIC_USER_LIFETIME ?? "60"),
       ...payload,
+      expiresInMins: 1440,
     });
   },
 });

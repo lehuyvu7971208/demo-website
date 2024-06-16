@@ -27,7 +27,14 @@ const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(
       },
     ]);
 
-    return <Link ref={ref} {...props} className={computedClassName} />;
+    return (
+      <Link
+        ref={ref}
+        data-testid="anchor"
+        className={computedClassName}
+        {...props}
+      />
+    );
   }
 );
 

@@ -23,11 +23,16 @@ const PostComment = forwardRef<HTMLDivElement, PostCommentProps>(
 
     return (
       <div ref={ref} {...props} className={computedClassName}>
-        <div className={"font-semibold"}>{comment.user.fullName}</div>
+        <div data-testid="comment-user" className={"font-semibold"}>
+          {comment.user.fullName}
+        </div>
 
-        <div>{comment.body}</div>
+        <div data-testid="comment-body">{comment.body}</div>
 
-        <div className={`flex flex-row items-center gap-x-2`}>
+        <div
+          data-testid="comment-likes"
+          className={`flex flex-row items-center gap-x-2`}
+        >
           {comment.likes ?? 0}{" "}
           <HandThumbUpIcon width={16} className={`text-gray-400`} />
         </div>

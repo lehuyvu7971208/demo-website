@@ -33,8 +33,9 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
-      const ESC_KEY_CODE = 27;
-      if (ESC_KEY_CODE !== event.keyCode) return;
+      const ESC_KEY = "Escape";
+
+      if (ESC_KEY !== event.key) return;
 
       return setShow(false);
     };

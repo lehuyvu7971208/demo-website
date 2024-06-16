@@ -72,20 +72,31 @@ const PostComments = forwardRef<HTMLDivElement, PostCommentsProps>(
       <div ref={ref} className={computedClassName}>
         <div className="flex flex-col max-w-lg mx-auto gap-y-5">
           <h3 className={"text-lg font-semibold"}>
-            Bình luận {!!total && <span>({total})</span>}
+            Bình luận{" "}
+            {!!total && <span data-testid="comments-total">({total})</span>}
           </h3>
 
-          <PostCommentEditor postId={postId} onSuccess={handleCommentSuccess} />
+          <PostCommentEditor
+            postId={postId}
+            data-testid="comment-editor"
+            onSuccess={handleCommentSuccess}
+          />
 
           <div className={`flex flex-col gap-y-5 mt-4`}>
             {comments.map((comment) => {
               return (
-                <PostComment comment={comment} key={`comment_${comment.id}`} />
+                <PostComment
+                  comment={comment}
+                  key={`comment_${comment.id}`}
+                  data-testid={`comment-${comment.id}`}
+                />
               );
             })}
 
             {comments.length === 0 && (
-              <div className="text-center">Chưa bình luận nào</div>
+              <div data-testid="comments-empty" className="text-center">
+                Chưa bình luận nào
+              </div>
             )}
           </div>
 

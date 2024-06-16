@@ -1,7 +1,7 @@
 "use client";
 
+import { FunctionComponent, PropsWithChildren, useRef } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { FunctionComponent, PropsWithChildren, useEffect, useRef } from "react";
 
 type QueryProviderProps = PropsWithChildren & {};
 

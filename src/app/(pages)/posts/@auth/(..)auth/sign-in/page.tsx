@@ -2,7 +2,7 @@
 
 // Utilities
 import { useRouter } from "next/navigation";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
 // Components
 import Modal from "@/components/modal";
@@ -24,7 +24,13 @@ type AuthSignInPageProps = {};
 const AuthSignInPage: FunctionComponent<AuthSignInPageProps> = (props) => {
   const router = useRouter();
   const appStore = useAppStore((state) => state);
-  const searchParams = useSearch<SearchParams>({ redirectUrl: null });
+
+  const searchParams = useSearch<SearchParams>(
+    { redirectUrl: null },
+    {
+      willSearchUpdate: () => true,
+    }
+  );
 
   const handleModalClose = () => {
     router.back();
@@ -33,7 +39,7 @@ const AuthSignInPage: FunctionComponent<AuthSignInPageProps> = (props) => {
   const handleAuthenticateSuccess = (token: string) => {
     appStore.setAccessToken(token);
 
-    router.replace(searchParams.redirectUrl ?? "/", {
+    router.replace(decodeURIComponent(searchParams.redirectUrl ?? "/"), {
       scroll: false,
     });
 

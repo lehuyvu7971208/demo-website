@@ -16,7 +16,7 @@ const useAddComment = (
   return useMutation({
     mutationKey: ["add-coment"],
     mutationFn: (payload) => {
-      return commentApi(httpClient).addCommit(payload);
+      return commentApi(httpClient).addCommment(payload);
     },
     ...options,
   });

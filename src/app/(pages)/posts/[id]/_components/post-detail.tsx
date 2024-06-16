@@ -1,13 +1,13 @@
 "use client";
 
 // Utilities
-import { FunctionComponent, useMemo } from "react";
 import { useParams } from "next/navigation";
+import { FunctionComponent, useMemo } from "react";
 
 // Components
 import Image from "next/image";
 import PostAuthor from "./post-author";
-import PostStatistic from "../../../../../components/post/post-statistic";
+import PostStatistic from "@/components/post/post-statistic";
 
 // Hooks
 import useGetSinglePost from "@/hooks/post/get-single-post";
@@ -37,21 +37,39 @@ const PostDetail: FunctionComponent<PostDetailProps> = (props) => {
   });
 
   return (
-    <div className="p-4 bg-white rounded-md">
+    <div data-testid="post-detail" className="p-4 bg-white rounded-md">
       <div className="max-w-lg mx-auto">
         <Image
           width={512}
           height={512}
           alt={post?.title ?? ""}
+          data-testid="post-detail-image"
           src={"https://dummyjson.com/image/512"}
           className={`max-w-lg mb-4 w-full rounded-md`}
         />
 
-        <h3 className={`text-lg mb-2 font-semibold`}>{post?.title}</h3>
+        {post?.title && (
+          <h3
+            data-testid="post-detail-title"
+            className={`text-lg mb-2 font-semibold`}
+          >
+            {post?.title}
+          </h3>
+        )}
 
-        <div className={`text-xs mb-4`}>{post?.body}</div>
+        {post?.body && (
+          <div data-testid="post-detail-body" className={`text-xs mb-4`}>
+            {post?.body}
+          </div>
+        )}
 
-        <PostAuthor userId={post?.userId ?? 0} className="mb-4" />
+        {post?.userId && (
+          <PostAuthor
+            className="mb-4"
+            userId={post?.userId}
+            data-testid="post-detail-author"
+          />
+        )}
 
         <PostStatistic
           views={post?.views ?? 0}

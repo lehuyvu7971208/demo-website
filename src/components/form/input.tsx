@@ -32,11 +32,25 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
 
     return (
       <div className={computedClassName}>
-        {label && <label className="text-xs text-gray-600">{label}</label>}
+        {label && (
+          <label
+            className="text-xs text-gray-600"
+            data-testid={`input-${props.name}-label`}
+          >
+            {label}
+          </label>
+        )}
 
-        <input ref={ref} {...props} className={computedInputClassName} />
+        <input ref={ref} className={computedInputClassName} {...props} />
 
-        {error && <div className={"text-rose-600 text-[11px]"}>{error}</div>}
+        {error && (
+          <div
+            className={"text-rose-600 text-[11px]"}
+            data-testid={`input-${props.name}-error`}
+          >
+            {error}
+          </div>
+        )}
       </div>
     );
   }

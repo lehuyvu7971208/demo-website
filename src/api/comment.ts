@@ -18,7 +18,7 @@ export type AddCommentResponse = {
 };
 
 const commentApi = (http: AxiosInstance) => ({
-  addCommit(payload: AddCommentPayload) {
+  addCommment(payload: AddCommentPayload) {
     return http.post<AddCommentResponse>("/comments/add", payload);
   },
 });

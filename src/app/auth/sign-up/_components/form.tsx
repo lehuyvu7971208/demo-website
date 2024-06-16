@@ -22,12 +22,18 @@ type SignUpFormProps = {};
 const SignUpForm: FunctionComponent<SignUpFormProps> = (props) => {
   const router = useRouter();
   const appStore = useAppStore((state) => state);
-  const searchParams = useSearch<SearchParams>({ redirectUrl: null });
+
+  const searchParams = useSearch<SearchParams>(
+    { redirectUrl: null },
+    {
+      willSearchUpdate: () => true,
+    }
+  );
 
   const handleAuthenticateSuccess = (token: string) => {
     appStore.setAccessToken(token);
 
-    router.replace(searchParams.redirectUrl ?? "/");
+    router.replace(decodeURIComponent(searchParams.redirectUrl ?? "/"));
   };
 
   return <FormSignUp onSuccess={handleAuthenticateSuccess} />;

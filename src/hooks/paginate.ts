@@ -1,24 +1,28 @@
 // Utilities
-import { useMemo } from "react";
 import { getSkip } from "@/utils";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+// Hooks
+import useSearch from "./search";
+
+type SearchParams = {
+  page: string;
+};
 
 const usePaginate = (limit = 10) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const params = useMemo<URLSearchParams>(
-    () => new URLSearchParams(searchParams.toString()),
-    [searchParams]
-  );
+  const { page } = useSearch<SearchParams>({
+    page: "1",
+  });
 
-  const page = useMemo<number>(
-    () => parseInt(params.get("page") ?? "1"),
-    [params]
+  const skip = useMemo<number>(
+    () => getSkip(parseInt(page ? page : "1"), limit),
+    [page, limit]
   );
-
-  const skip = useMemo<number>(() => getSkip(page, limit), [page, limit]);
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());

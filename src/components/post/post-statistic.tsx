@@ -20,19 +20,25 @@ const PostStatistic = forwardRef<HTMLDivElement, PostStatisticProps>(
 
     return (
       <div ref={ref} {...props} className={computedClassName}>
-        <div>
+        <div data-testid="views">
           Lượt xem: <span className={`text-blue-400`}>{views}</span>
         </div>
 
         <div className="flex flex-row flex-nowrap items-center gap-x-4">
-          {likes && (
-            <div className={`flex flex-row items-center gap-x-2`}>
+          {!!likes && (
+            <div
+              data-testid="likes"
+              className={`flex flex-row items-center gap-x-2`}
+            >
               {likes} <HandThumbUpIcon width={16} className={`text-gray-400`} />
             </div>
           )}
 
-          {dislikes && (
-            <div className={`flex flex-row items-center gap-x-2`}>
+          {!!dislikes && (
+            <div
+              data-testid="dislikes"
+              className={`flex flex-row items-center gap-x-2`}
+            >
               {dislikes}{" "}
               <HandThumbDownIcon width={16} className={`text-gray-400`} />
             </div>

@@ -1,11 +1,10 @@
 // Utilities
 import { Metadata } from "next";
 import { cookies } from "next/headers";
-import { PropsWithChildren, Suspense } from "react";
+import { PropsWithChildren } from "react";
 
 // Components
 import QueryProvider from "@/components/query-provider";
-import NavigationEvents from "@/components/navigation-events";
 
 // Store
 import { AppStoreProvider } from "@/store/app-store-provider";
@@ -31,8 +30,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
             {children}
           </AppStoreProvider>
         </QueryProvider>
-
-        <NavigationEvents />
       </body>
     </html>
   );

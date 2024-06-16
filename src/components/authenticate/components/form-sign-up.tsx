@@ -2,7 +2,7 @@
 
 // Utilities
 import * as Yup from "yup";
-import { FunctionComponent, useMemo } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 
 // Components
 import { Formik } from "formik";
@@ -45,6 +45,8 @@ type FormSignUpProps = {
 };
 
 const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
+  const [error, setError] = useState<Nullable<string>>();
+
   const authStore = useAuthStore((state) => state);
   const searchParams = useSearch<SearchParams>({ redirectUrl: null });
 
@@ -55,10 +57,18 @@ const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
     return `/auth/sign-in?redirectUrl=${searchParams.redirectUrl}`;
   }, [searchParams.redirectUrl]);
 
-  const handleFormSubmit = async (values: FormValues) => {
-    const accessToken = await authStore.signUp(values);
+  const handleLoginError = (error: unknown) => {
+    setError("Đã có lỗi xảy ra");
+  };
 
-    !!onSuccess && onSuccess(accessToken);
+  const handleFormSubmit = async (values: FormValues) => {
+    try {
+      const accessToken = await authStore.signUp(values);
+
+      !!onSuccess && onSuccess(accessToken);
+    } catch (error) {
+      handleLoginError(error);
+    }
   };
 
   return (
@@ -69,20 +79,36 @@ const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
     >
       {(props) => (
         <form
-          className="flex w-full flex-1 flex-col gap-y-4"
+          data-testid="form-signup"
           onSubmit={props.handleSubmit}
+          className="flex w-full flex-1 flex-col gap-y-4"
         >
+          {!!error && (
+            <div
+              data-testid="form-signup-error"
+              className="p-4 bg-red-100 rounded-md text-red-600"
+            >
+              {error}
+            </div>
+          )}
+
           <div className="flex-1 w-full">
             <FormikInput
               name="username"
               label="Tên tài khoản"
               placeholder="Nhập tên tài khoản"
+              data-testid="form-signup-username"
             />
           </div>
 
           <div className="flex flex-1 flex-wrap sm:flex-nowrap w-full gap-4">
             <div className="flex-1 basis-full sm:basis-1/2">
-              <FormikInput name="lastName" label="Họ" placeholder="Nhập họ" />
+              <FormikInput
+                name="lastName"
+                label="Họ"
+                placeholder="Nhập họ"
+                data-testid="form-signup-last-name"
+              />
             </div>
 
             <div className="flex-1 basis-full sm:basis-1/2">
@@ -90,6 +116,7 @@ const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
                 label="Tên"
                 name="firstName"
                 placeholder="Nhập tên"
+                data-testid="form-signup-first-name"
               />
             </div>
           </div>
@@ -99,11 +126,16 @@ const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
               name="password"
               label="Mật khẩu"
               placeholder="Nhập mật khẩu"
+              data-testid="form-signup-password"
             />
           </div>
 
           <div className="flex-1 w-full">
-            <Button type="submit" loading={props.isSubmitting}>
+            <Button
+              type="submit"
+              loading={props.isSubmitting}
+              data-testid="form-signup-button"
+            >
               Đăng ký
             </Button>
           </div>
@@ -115,6 +147,7 @@ const FormSignUp: FunctionComponent<FormSignUpProps> = ({ onSuccess }) => {
                 replace
                 scroll={false}
                 href={signInUrl}
+                data-testid="signin-link"
                 className="!text-blue-400 hover:font-semibold"
               >
                 Đăng nhập

@@ -4,12 +4,13 @@ import { ButtonHTMLAttributes, forwardRef, useMemo } from "react";
 
 type ButtonProps = {
   loading?: boolean;
+  loadingClassName?: string;
 };
 
 const Button = forwardRef<
   HTMLButtonElement,
   ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
->(({ loading, className, ...props }, ref) => {
+>(({ loading, className, loadingClassName, ...props }, ref) => {
   const computedClassName = useMemo<string>(
     () =>
       classNames([
@@ -21,18 +22,25 @@ const Button = forwardRef<
         {
           "bg-blue-200": loading,
         },
+        ...(loading && loadingClassName ? [loadingClassName] : []),
       ]),
-    [loading, className]
+    [loading, className, loadingClassName]
   );
 
   return (
-    <button ref={ref} {...props} className={computedClassName}>
+    <button
+      ref={ref}
+      data-testid="button"
+      className={computedClassName}
+      {...props}
+    >
       {loading ? (
         <Image
           width={16}
           height={16}
           alt="Loading"
           src="/images/loading.svg"
+          data-testid="button-loading"
           className="animate-spin inline-block"
         />
       ) : (

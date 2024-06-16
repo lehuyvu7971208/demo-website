@@ -6,11 +6,9 @@ import {
   createContext,
   FunctionComponent,
   PropsWithChildren,
-  useEffect,
 } from "react";
 import { StoreApi, useStore } from "zustand";
-import { AppStore, createAppStore } from "./app-store";
-import httpClient from "@/utils/http/client";
+import { AppStore, createAppStore } from "@/store/app-store";
 
 export const AppStoreContext = createContext<StoreApi<AppStore> | null>(null);
 

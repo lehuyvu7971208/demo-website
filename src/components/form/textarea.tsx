@@ -35,11 +35,25 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
 
     return (
       <div className={computedClassName}>
-        {label && <label className="text-xs text-gray-600">{label}</label>}
+        {label && (
+          <label
+            className="text-xs text-gray-600"
+            data-testid={`textarea-${props.name}-label`}
+          >
+            {label}
+          </label>
+        )}
 
-        <textarea ref={ref} {...props} className={computedInputClassName} />
+        <textarea ref={ref} className={computedInputClassName} {...props} />
 
-        {error && <div className={"text-rose-600 text-[11px]"}>{error}</div>}
+        {error && (
+          <div
+            className={"text-rose-600 text-[11px]"}
+            data-testid={`textarea-${props.name}-error`}
+          >
+            {error}
+          </div>
+        )}
       </div>
     );
   }

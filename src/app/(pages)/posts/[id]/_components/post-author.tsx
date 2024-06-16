@@ -12,7 +12,7 @@ type PostAuthorProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 const PostAuthor = forwardRef<HTMLDivElement, PostAuthorProps>(
-  ({ userId, className }, ref) => {
+  ({ userId, className, ...props }, ref) => {
     const computedClassName = useMemo<string>(() => {
       return classNames([className]);
     }, [className]);
@@ -24,9 +24,14 @@ const PostAuthor = forwardRef<HTMLDivElement, PostAuthorProps>(
     if (!user) return null;
 
     return (
-      <div ref={ref} className={computedClassName}>
+      <div
+        ref={ref}
+        data-testid="author"
+        className={computedClassName}
+        {...props}
+      >
         Tác giả:{" "}
-        <span className="font-semibold">
+        <span data-testid="author-name" className="font-semibold">
           {user?.firstName} {user?.lastName}
         </span>
       </div>

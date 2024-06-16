@@ -33,9 +33,9 @@ const Authenticate: FunctionComponent<AuthenticateProps> = ({
   const appStore = useAppStore((state) => state);
 
   const login = () => {
-    const redirectUrl = `${pathname}${
-      !searchParams.toString() ? "" : `?${searchParams}`
-    }`;
+    const redirectUrl = encodeURIComponent(
+      `${pathname}${!searchParams.toString() ? "" : `?${searchParams}`}`
+    );
 
     if (persistence) {
       router.replace(`/auth/sign-in?redirectUrl=${redirectUrl}`, {
@@ -44,7 +44,6 @@ const Authenticate: FunctionComponent<AuthenticateProps> = ({
 
       return;
     }
-
     router.push(`/auth/sign-in?redirectUrl=${redirectUrl}`, {
       scroll: false,
     });
@@ -60,10 +59,8 @@ const Authenticate: FunctionComponent<AuthenticateProps> = ({
     return children;
   }
 
-  if (!appStore.accessToken) {
-    return (
-      <>{!unauthenticateRender ? null : unauthenticateRender({ login })}</>
-    );
+  if (!appStore.accessToken && !!unauthenticateRender) {
+    return unauthenticateRender({ login });
   }
 
   return null;

@@ -5,17 +5,18 @@ import classNames from "classnames";
 import { useMemo, MouseEvent, forwardRef, HTMLAttributes } from "react";
 
 // Components
+import {
+  UserIcon,
+  ChevronUpDownIcon,
+  ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/react/16/solid";
 import Button from "@/components/button";
 import Dropdown from "@/components/dropdown";
 import Authenticate from "@/components/authenticate";
-import {
-  ArrowLeftStartOnRectangleIcon,
-  ChevronUpDownIcon,
-  UserIcon,
-} from "@heroicons/react/16/solid";
 
 // Store
 import { useAppStore } from "@/store/app-store-provider";
+import { useRouter } from "next/navigation";
 
 type ProfileSummaryProps = HTMLAttributes<HTMLAnchorElement>;
 
@@ -34,10 +35,18 @@ const ProfileSummary = forwardRef<HTMLAnchorElement, ProfileSummaryProps>(
     }, [className]);
 
     return (
-      <a ref={ref} {...props} className={computedClassName}>
+      <a
+        ref={ref}
+        {...props}
+        data-testid="profile-summary"
+        className={computedClassName}
+      >
         <div className={"hidden sm:block"}>
           Hello
-          <span className="inline-block ml-1 text-blue-400 font-medium ">
+          <span
+            data-testid="profile-summary-fullname"
+            className="inline-block ml-1 text-blue-400 font-medium "
+          >
             {appStore.me?.firstName} {appStore.me?.lastName}
           </span>
           !
@@ -72,7 +81,12 @@ const ProfileActions = forwardRef<HTMLUListElement, ProfileActionsProps>(
     }, [className]);
 
     return (
-      <ul ref={ref} className={computedClassName}>
+      <ul
+        ref={ref}
+        {...props}
+        data-testid={"profile-menu"}
+        className={computedClassName}
+      >
         <li className="sm:hidden">
           <div className={"p-4"}>
             Hello{" "}
@@ -85,6 +99,7 @@ const ProfileActions = forwardRef<HTMLUListElement, ProfileActionsProps>(
         <li>
           <a
             href="#"
+            data-testid="profile-menu-signout"
             className={`
               block p-4 transition-all ease-linear 
             hover:bg-blue-400 hover:text-white
@@ -104,7 +119,8 @@ ProfileActions.displayName = "ProfileActions";
 type ProfileProps = {} & HTMLAttributes<HTMLDivElement>;
 
 const Profile = forwardRef<HTMLDivElement, ProfileProps>(
-  ({ className }, ref) => {
+  ({ className, ...props }, ref) => {
+    const router = useRouter();
     const appStore = useAppStore((state) => state);
 
     const computedClassName = useMemo<string>(() => {
@@ -122,11 +138,15 @@ const Profile = forwardRef<HTMLDivElement, ProfileProps>(
     };
 
     return (
-      <div ref={ref} className={computedClassName}>
+      <div ref={ref} className={computedClassName} {...props}>
         <Authenticate
           unauthenticateRender={({ login }) => (
             <div className={`px-4`}>
-              <Button className="!rounded-full px-5 " onClick={login}>
+              <Button
+                onClick={login}
+                className="!rounded-full px-5 "
+                data-testid="profile-button-login"
+              >
                 <span className="hidden sm:inline-block">Đăng nhập</span>
                 <ArrowLeftStartOnRectangleIcon className={`sm:hidden w-5`} />
               </Button>

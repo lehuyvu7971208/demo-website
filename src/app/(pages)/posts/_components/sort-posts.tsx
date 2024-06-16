@@ -9,13 +9,10 @@ import Button from "@/components/button";
 import Dropdown from "@/components/dropdown";
 import { Bars3BottomRightIcon } from "@heroicons/react/16/solid";
 
-// Hooks
-import useSearch from "@/hooks/search";
-
 // Constants
 import { POST_SORT_OPTIONS } from "@/constants";
 
-type SortValues = {
+export type SortValues = {
   order: Nullable<string>;
   sortBy: Nullable<string>;
 };
@@ -25,7 +22,7 @@ type SortMenuProps = Omit<HTMLAttributes<HTMLUListElement>, "onClick"> & {
   onClick?: (values: SortValues) => void;
 };
 
-const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
+export const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
   ({ className, toggle, onClick, ...props }, ref) => {
     const computedClassName = useMemo<string>(() => {
       return classNames([className, `bg-white rounded-md`]);
@@ -38,10 +35,16 @@ const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
     };
 
     return (
-      <ul ref={ref} {...props} className={computedClassName}>
+      <ul
+        ref={ref}
+        {...props}
+        data-testid={"sort-menu"}
+        className={computedClassName}
+      >
         {POST_SORT_OPTIONS.map(({ title, values }, index) => (
-          <li key={`post_sort_${index}`}>
+          <li key={`post_sort_${index}`} data-testid={"sort-item"}>
             <a
+              data-testid={"sort-link"}
               onClick={() => handleSortItemClick(values)}
               className={`block p-4 text-nowrap hover:cursor-pointer`}
             >
@@ -56,38 +59,31 @@ const SortMenu = forwardRef<HTMLUListElement, SortMenuProps>(
 
 SortMenu.displayName = "SortMenu";
 
-type SearchParams = {
-  order: Nullable<string>;
-  sortBy: Nullable<string>;
-};
-
 type SortPostsProps = {
+  value?: SortValues;
   className?: string;
   onSortChange?: (sortBy: Nullable<string>, order: Nullable<string>) => void;
 };
 
 const SortPosts: FunctionComponent<SortPostsProps> = ({
+  value,
   className,
   onSortChange,
 }) => {
-  const { order, sortBy } = useSearch<SearchParams>({
-    order: null,
-    sortBy: null,
-  });
-
   const selectSortTitle = useMemo<string>(() => {
-    if (!sortBy && !order) {
+    if (!value?.sortBy && !value?.order) {
       return "Sắp xếp";
     }
 
     const selectSortOption = POST_SORT_OPTIONS.find(
-      ({ values }) => values.sortBy === sortBy && values.order === order
+      ({ values }) =>
+        values.sortBy === value.sortBy && values.order === value.order
     );
 
     if (!selectSortOption) return "Sắp xếp";
 
     return selectSortOption.title;
-  }, [order, sortBy]);
+  }, [value]);
 
   const handleSortMenuClick = (values: SortValues) => {
     !!onSortChange && onSortChange(values.sortBy, values.order);
@@ -99,6 +95,7 @@ const SortPosts: FunctionComponent<SortPostsProps> = ({
       toggle={({ toggle }) => (
         <Button
           onClick={toggle}
+          data-testid={"sort-toggle"}
           className={`
             flex flex-row items-center gap-x-2 text-nowrap
             bg-gray-300 !text-gray-600 hover:bg-gray-400

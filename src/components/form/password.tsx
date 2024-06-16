@@ -38,10 +38,17 @@ const FormPassword = forwardRef<
 
   return (
     <div className="flex flex-col gap-y-1 relative">
-      {label && <label className="text-xs text-gray-600">{label}</label>}
+      {label && (
+        <label
+          className="text-xs text-gray-600"
+          data-testid={`input-${props.name}-label`}
+        >
+          {label}
+        </label>
+      )}
 
       <div className={"w-full relative"}>
-        <input ref={ref} {...props} type={type} className={className} />
+        <input ref={ref} type={type} className={className} {...props} />
 
         <div
           onClick={toggle}
@@ -50,12 +57,24 @@ const FormPassword = forwardRef<
             right-2.5 text-gray-400 
             cursor-pointer hover:text-blue-400
           `}
+          data-testid={`input-${props.name}-toggle`}
         >
-          {show ? <EyeIcon /> : <EyeSlashIcon />}
+          {show ? (
+            <EyeIcon data-testid={`input-${props.name}-show`} />
+          ) : (
+            <EyeSlashIcon data-testid={`input-${props.name}-hide`} />
+          )}
         </div>
       </div>
 
-      {error && <div className={"text-rose-600 text-[11px]"}>{error}</div>}
+      {error && (
+        <div
+          className={"text-rose-600 text-[11px]"}
+          data-testid={`input-${props.name}-error`}
+        >
+          {error}
+        </div>
+      )}
     </div>
   );
 });
