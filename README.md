@@ -66,3 +66,11 @@ npm run test:coverage
 
 #### Completed Requirement Tasks
 
+- [x] Authentication: Implement a user authentication system with sign-up, login, and logout functionality.Only authenticated users should be able to view the post details.
+- [x] Commenting System: Add a commenting feature to the post details page. Authenticated users should be able to leave comments on a post.Display the list of comments for each post.
+- [x] Search and Filter: Implement a search functionality on the home page to allow users to search for posts by title or content.Add a filter option to sort posts based on different criteria (e.g., date, number of comments).
+- [x] Pagination: If the API supports pagination, implement pagination for the list of posts on the home page.
+- [x] Responsive Design: Ensure that the application is fully responsive and works well on both desktop and mobile devices.
+- [x] Testing: Write unit tests for critical components or functions using a testing library of your choice (e.g., Jest).
+
+
